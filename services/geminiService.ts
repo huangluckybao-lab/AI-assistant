@@ -7,11 +7,14 @@ let currentAgentId: string | null = null;
 
 const initializeAI = () => {
   if (!ai) {
-    if (!process.env.API_KEY) {
-      console.error("API_KEY is missing!");
+    // 修改点 1: 使用标准的 Vite 环境变量读取方式
+    const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+    
+    if (!apiKey) {
+      console.error("API_KEY is missing! Please check your Cloudflare Environment Variables.");
       return;
     }
-    ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+    ai = new GoogleGenAI({ apiKey: apiKey });
   }
 };
 
